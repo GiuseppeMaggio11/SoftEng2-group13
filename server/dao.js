@@ -10,3 +10,18 @@ const sqlite = require('sqlite3');
 const db = new sqlite.Database("database.db", (err) => {
     if (err) throw err;
 });
+
+
+
+exports.resetQueuesCounter = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "UPDATE queues SET count=0 WHERE queue=\"Q1\"";
+        db.run(sql, [], function (err) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(this.changes);
+        });
+    }); 
+}
