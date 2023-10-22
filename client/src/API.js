@@ -29,9 +29,19 @@ function getJson(httpResponsePromise) {
 
 
 
+async function getCount() {
+  const response = await fetch(SERVER_URL + "counter");
+  const count = await response.json();
+  if (response.ok) {
+      return count;
+  } else {
+      throw count;
+  }
+}
+
 async function resetQueuesCounter() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER_URL + "/reset", {
+    fetch(SERVER_URL + "reset", {
       method: 'PUT'
     }).then((response) => {
       if (response.ok) {
@@ -48,7 +58,7 @@ async function resetQueuesCounter() {
 
 
 const API = {
-  resetQueuesCounter
+  getCount, resetQueuesCounter
 };
 
 export default API;

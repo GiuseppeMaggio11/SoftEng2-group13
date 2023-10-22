@@ -4,6 +4,7 @@ import './App.css'
 import './routes/Customer'
 import Customer from './routes/Customer';
 import Home from './routes/Home';
+import Manager from './routes/Manager';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/"  element={<Home/>} />
         <Route path="/customer" element={<Customer/>} />
+        <Route path="/manager" element={<Manager/>} />
         {/*add a new path here */}
       </Routes>
     </BrowserRouter>
