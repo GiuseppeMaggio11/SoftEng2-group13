@@ -4,8 +4,8 @@ import { Alert } from "react-bootstrap";
 function ErrorComp() {
   return (
     <Alert variant="danger">
-      <Alert.Heading>Errore!</Alert.Heading>
-      <p>Si è verificato un errore imprevisto, riprovare</p>
+      <Alert.Heading>Error!</Alert.Heading>
+      <p>An unexpected error occurred, please try again.</p>
     </Alert>
   );
 }
