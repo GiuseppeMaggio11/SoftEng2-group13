@@ -38,26 +38,26 @@ function Customer() {
     getTicketNumber();
   }, []);
 
-    return (
-      <Container  className="text-center">
-        {!showThankYou && <h2>Hello, we are serving the client number</h2>}
-        {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number.num} />}
-        {!showThankYou && <Button onClick={handleNewTicket}>Get a new ticket</Button>}
-        {showThankYou && <h1>Thank you!</h1>}
-      </Container>
-    );
+  return (
+    <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+      {!showThankYou && <h2>Hello, we are serving the client number</h2>}
+      {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number.num} />}
+      {!showThankYou && <Button variant="primary" onClick={handleNewTicket}>Get a new ticket</Button>}
+      {showThankYou && <h1>Thank you!</h1>}
+    </Container>
+  );
   }
 
 
   const NumberDisplay = ({ number }) => {
     const numberStyle = {
-      fontSize: "3em", // Dimensione del testo
-      fontWeight: "bold", // Grassetto
-      color: "black", // Colore specificato
+      fontSize: "3em",
+      fontWeight: "bold",
+      color: "black",
       display: "flex",
-      justifyContent: "center", // Allinea orizzontalmente al centro
-      alignItems: "center", // Allinea verticalmente al centro
-      height: "50vh", // Adjusted the height to 50vh
+      justifyContent: "center",
+      alignItems: "center",
+      height: "50vh",
       fontSize: "200px",
     };
   
