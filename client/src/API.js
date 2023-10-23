@@ -26,3 +26,18 @@ function getJson(httpResponsePromise) {
         ) // connection error
     });
   }
+
+  async function getTicketNumber() {
+    // call  /api/ticketnumber
+    return getJson(fetch(SERVER_URL + "counter")).then((number) => {
+      return { num: number };
+    });
+  }
+
+  async function newTicketNumber() {
+    // call an api to increament the number of the queue
+  }
+
+  
+  const API = { getTicketNumber, newTicketNumber };
+  export default API;
