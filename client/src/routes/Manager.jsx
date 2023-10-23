@@ -40,7 +40,7 @@ function Manager() {
 
     const resetCount = () => {
         setQueueCounter(Object.assign({}, { count: queueCounter.count, updated: true }));
-        API.resetQueuesCounter()
+        API.resetQueuesTotal()
             .then(() => setDirtyCount(true))
             .catch((err) => handleError(err));
     }

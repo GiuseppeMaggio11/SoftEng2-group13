@@ -39,7 +39,7 @@ async function getCount() {
   }
 }
 
-async function resetQueuesCounter() {
+async function resetQueuesTotal() {
   return new Promise((resolve, reject) => {
     fetch(SERVER_URL + "reset", {
       method: 'PUT'
@@ -58,7 +58,7 @@ async function resetQueuesCounter() {
 
 
 const API = {
-  getCount, resetQueuesCounter
+  getCount, resetQueuesTotal
 };
 
 export default API;

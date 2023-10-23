@@ -13,9 +13,9 @@ const db = new sqlite.Database("database.db", (err) => {
 
 
 
-exports.getQueuesCounter = () => {
+exports.getQueuesTotal = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT count FROM queues WHERE queue=\"Q1\"";
+        const sql = "SELECT count FROM TotalCustomerServed WHERE queue=\"Q1\"";
         db.get(sql, [], (err, row) => {
             if (err) {
                 reject(err);
@@ -26,9 +26,9 @@ exports.getQueuesCounter = () => {
     }); 
 }
 
-exports.resetQueuesCounter = () => {
+exports.resetQueuesTotal = () => {
     return new Promise((resolve, reject) => {
-        const sql = "UPDATE queues SET count=0 WHERE queue=\"Q1\"";
+        const sql = "UPDATE TotalCustomerServed SET count=0 WHERE queue=\"Q1\"";
         db.run(sql, [], function (err) {
             if (err) {
                 reject(err);

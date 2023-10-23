@@ -25,14 +25,14 @@ app.use(cors(corsOptions));
 
 
 app.get("/api/counter", (req, res) => {
-    dao.getQueuesCounter()
+    dao.getQueuesTotal()
         .then(count => res.status(200).json(count))
         .catch((err) => res.status(500).json(err));
 })
 
 app.put("/api/reset", async (req, res) => {
     try {
-        const result = await dao.resetQueuesCounter();
+        const result = await dao.resetQueuesTotal();
         if (result.error) {
             res.status(404).json(result);
         }
