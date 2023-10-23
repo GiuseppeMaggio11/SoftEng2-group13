@@ -15,20 +15,20 @@ const db = new sqlite.Database("database.db", (err) => {
 
 exports.getQueuesTotal = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT count FROM TotalCustomerServed WHERE queue=\"Q1\"";
+        const sql = "SELECT amount FROM queues WHERE queue=\"Q1\" AND date=DATE()";
         db.get(sql, [], (err, row) => {
             if (err) {
                 reject(err);
                 return;
             }
-            resolve(row.count);
+            resolve(row.amount);
         });
     }); 
 }
 
 exports.resetQueuesTotal = () => {
     return new Promise((resolve, reject) => {
-        const sql = "UPDATE TotalCustomerServed SET count=0 WHERE queue=\"Q1\"";
+        const sql = "UPDATE queues SET amount=0 WHERE queue=\"Q1\" AND date=DATE()";
         db.run(sql, [], function (err) {
             if (err) {
                 reject(err);
