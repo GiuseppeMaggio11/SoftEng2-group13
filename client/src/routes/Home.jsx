@@ -6,10 +6,10 @@ function Home() {
   return (
     <Container>
       <h2>This is the Home page.</h2>
-      <Link to="/customer">
+      <Link to="/customer" className="m-1">
         <Button>Customer Interface</Button>
       </Link>
-      <Link to="/ticketnumber">
+      <Link to="/ticketnumber" className="m-1">
         <Button>Get Ticket Number</Button>
       </Link>
       {/*add other buttons*/}
