@@ -26,7 +26,7 @@ function getJson(httpResponsePromise) {
 async function getTicketNumber() {
   // call  /api/ticketnumber
   return getJson(fetch(SERVER_URL + "counter")).then((number) => {
-    return { num: number };
+    return number;
   });
 }
 

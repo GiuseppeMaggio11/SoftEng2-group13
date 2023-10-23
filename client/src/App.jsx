@@ -13,6 +13,7 @@ import "./routes/Customer";
 import Customer from "./routes/Customer";
 import Home from "./routes/Home";
 import TicketNumber from "./routes/TicketNumer";
+import CounterOfficier from "./routes/CounterOfficier";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/customer" element={<Customer />} />
         <Route path="/ticketnumber" element={<TicketNumber />} />
+        <Route path="/counterofficier" element={<CounterOfficier />} />
         {/*add a new path here */}
       </Routes>
     </BrowserRouter>

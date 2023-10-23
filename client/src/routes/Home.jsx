@@ -12,6 +12,9 @@ function Home() {
       <Link to="/ticketnumber" className="m-1">
         <Button>Get Ticket Number</Button>
       </Link>
+      <Link to="/counterofficier" className="m-1">
+        <Button>Counter Officier</Button>
+      </Link>
       {/*add other buttons*/}
     </Container>
   );
