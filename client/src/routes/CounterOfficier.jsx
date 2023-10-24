@@ -22,8 +22,8 @@ function CounterOfficier() {
   }, []);
 
   const handleIncreaseCount = () => {
-    //API UPDATE +1
-    API.updateQueueCount(1)
+    //API call the next one
+    API.updateQueueCount('Q1')
       .then((objCount) => {
         setNumber(objCount);
       })
@@ -52,7 +52,7 @@ function CounterOfficier() {
           </Button>
         </Col>
         <Col>
-          {error ? <ErrorComp /> : <NumberDisplay number={number.count} />}
+          {error ? <ErrorComp /> : number.count!=null?<NumberDisplay number={number.count}/>:<AllServed/>}
         </Col>
       </Row>
     </Container>
@@ -66,11 +66,24 @@ const NumberDisplay = ({ number }) => {
     display: "flex",
     justifyContent: "center", // Allinea orizzontalmente al centro
     alignItems: "center", // Allinea verticalmente al centro
-    height: "100vh", // Altezza della viewport
+    height: "80vh", // Altezza della viewport
     fontSize: "200px",
   };
 
   return <div style={numberStyle}>{number}</div>;
+};
+const AllServed = ({ number }) => {
+  const numberStyle = {
+    fontWeight: "bold", // Grassetto
+    color: "black", // Colore specificato
+    display: "flex",
+    justifyContent: "center", // Allinea orizzontalmente al centro
+    alignItems: "center", // Allinea verticalmente al centro
+    height: "80vh", // Altezza della viewport
+    fontSize: "50px",
+  };
+
+  return <div style={numberStyle}>all the cutomer are served</div>
 };
 
 export default CounterOfficier;

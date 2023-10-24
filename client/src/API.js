@@ -26,11 +26,12 @@ function getJson(httpResponsePromise) {
 async function getTicketNumber() {
   // call  /api/counter
   return getJson(fetch(SERVER_URL + "counter")).then((objCount) => {
+    console.log('oggetto'+ objCount)
     return objCount;
   });
 }
 
-async function updateQueueCount(queueNumber) {
+async function updateQueueCount(name) {
   // call  PUT /api/counter
   try {
     const response = await fetch(SERVER_URL + "counter", {
@@ -38,7 +39,7 @@ async function updateQueueCount(queueNumber) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ queue: queueNumber }),
+      body: JSON.stringify({ queue: name }),
     });
     const newCount = await response.json();
     if (response.ok) {
