@@ -24,11 +24,33 @@ function getJson(httpResponsePromise) {
 }
 
 async function getTicketNumber() {
-  // call  /api/ticketnumber
-  return getJson(fetch(SERVER_URL + "counter")).then((number) => {
-    return number;
+  // call  /api/counter
+  return getJson(fetch(SERVER_URL + "counter")).then((objCount) => {
+    return objCount;
   });
 }
 
-const API = { getTicketNumber };
+async function updateQueueCount(queueNumber) {
+  // call  PUT /api/counter
+  try {
+    const response = await fetch(SERVER_URL + "counter", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ queue: queueNumber }),
+    });
+    const newCount = await response.json();
+    if (response.ok) {
+      return newCount;
+    } else {
+      const message = await response.text();
+      throw new Error(message);
+    }
+  } catch (err) {
+    throw new Error(err.message, { cause: err });
+  }
+}
+
+const API = { getTicketNumber, updateQueueCount };
 export default API;

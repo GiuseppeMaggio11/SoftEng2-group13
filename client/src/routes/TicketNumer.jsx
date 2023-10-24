@@ -4,14 +4,14 @@ import ErrorComp from "../OtherComponents/ErrorComp";
 import { Alert, Container } from "react-bootstrap";
 
 function TicketNumber() {
-  const [number, setNumber] = useState(undefined);
+  const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
-        const num = await API.getTicketNumber();
-        setNumber(num);
+        const objCount = await API.getTicketNumber();
+        setNumber(objCount);
       } catch (err) {
         console.log(err);
         setError(true);
@@ -24,7 +24,7 @@ function TicketNumber() {
   return (
     <Container className="text-center">
       <h2>Current Number</h2>
-      {error ? <ErrorComp /> : <NumberDisplay number={number} />}
+      {error ? <ErrorComp /> : <NumberDisplay number={number.count} />}
     </Container>
   );
 }

@@ -4,7 +4,7 @@ import ErrorComp from "../OtherComponents/ErrorComp";
 import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 
 function CounterOfficier() {
-  const [number, setNumber] = useState(1);
+  const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -18,12 +18,16 @@ function CounterOfficier() {
       }
     };
 
-    //getTicketNumber();
+    getTicketNumber();
   }, []);
 
   const handleIncreaseCount = () => {
     //API UPDATE +1
-    setNumber((old) => old + 1);
+    API.updateQueueCount(1)
+      .then((objCount) => {
+        setNumber(objCount);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -47,7 +51,9 @@ function CounterOfficier() {
             </span>
           </Button>
         </Col>
-        <Col>{error ? <ErrorComp /> : <NumberDisplay number={number} />}</Col>
+        <Col>
+          {error ? <ErrorComp /> : <NumberDisplay number={number.count} />}
+        </Col>
       </Row>
     </Container>
   );

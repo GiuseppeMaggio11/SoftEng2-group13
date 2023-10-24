@@ -28,11 +28,11 @@ function dropTable (tabella) {
     }); 
 } */
 
-function createTable () {
+function createTable1 () {
     return new Promise ( (resolve,reject) => {
         const query = `CREATE TABLE "queues" (
             "id"	INTEGER NOT NULL,
-            "queue"	TEXT UNIQUE NOT NULL,
+            "queue"	TEXT NOT NULL,
             "count"	INTEGER NOT NULL,
             PRIMARY KEY("id" AUTOINCREMENT)
         )`;
@@ -43,7 +43,7 @@ function createTable () {
     }); 
 }
 
-function populate_table (queue, count) {
+function populate_table1 (queue, count) {
     return new Promise ( (resolve,reject) => {
         const query = "INSERT INTO queues(queue, count) VALUES(?,?)";
         db.run(query, [queue, count], (err,rows) => {
@@ -53,13 +53,39 @@ function populate_table (queue, count) {
     }); 
 }
 
+function createTable2 () {
+    return new Promise ( (resolve,reject) => {
+        const query = `CREATE TABLE "statistics" (
+            "id"	INTEGER NOT NULL,
+            "queue"	TEXT UNIQUE NOT NULL,
+            "amount"    INTEGER NOT NULL,
+            "date"  DATE NOT NULL,
+            FOREIGN KEY("queue") REFERENCES "queues"("queue"),
+            PRIMARY KEY("id" AUTOINCREMENT)
+        )`;
+        db.run(query, [], (err,rows) => {
+            if (err) reject(err);
+            else resolve(console.log("Inserted"));
+        });
+    }); 
+}
+function populate_table2 (queue, amount, date) {
+    return new Promise ( (resolve,reject) => {
+        const query = "INSERT INTO statistics(queue, amount, date) VALUES(?,?,?)";
+        db.run(query, [queue, amount, date], (err,rows) => {
+            if (err) reject(err);
+            else resolve(console.log("Inserted"));
+        });
+    }); 
+}
 
 
 async function initialize () {
     try {
         await dropTable("queues");
-        await createTable();
-        await populate_table("Q1", 0);
+        await dropTable("statistics");
+        await createTable1();
+        await createTable2();
     }
     catch (err) {
         console.log(err)
