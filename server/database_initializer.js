@@ -33,7 +33,7 @@ function createTable1 () {
         const query = `CREATE TABLE "queues" (
             "id"	INTEGER NOT NULL,
             "queue"	TEXT NOT NULL,
-            "count"	INTEGER NOT NULL,
+            "ticketNumber"	INTEGER NOT NULL,
             PRIMARY KEY("id" AUTOINCREMENT)
         )`;
         db.run(query, [], (err,rows) => {
@@ -43,10 +43,10 @@ function createTable1 () {
     }); 
 }
 
-function populate_table1 (queue, count) {
+function populate_table1 (queue, ticketNumber) {
     return new Promise ( (resolve,reject) => {
-        const query = "INSERT INTO queues(queue, count) VALUES(?,?)";
-        db.run(query, [queue, count], (err,rows) => {
+        const query = "INSERT INTO queues(queue, ticketNumber) VALUES(?,?)";
+        db.run(query, [queue, ticketNumber], (err,rows) => {
             if (err) reject(err);
             else resolve(console.log("Inserted"));
         });
