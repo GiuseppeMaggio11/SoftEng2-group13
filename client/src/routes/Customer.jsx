@@ -9,10 +9,10 @@ function Customer() {
   const [showThankYou, setShowThankYou] = useState(false);
 
   function handleNewTicket(){
-    //let newNum = API.newTicketNumber();
+    let newNum = API.newTicketNumber();
     console.log('new ticket')
-    let newNum = { ...number }; //mock
-    newNum.num +=1;
+    //let newNum = { ...number }; //mock
+    //newNum.num +=1;
     setNumber(newNum)
     console.log(newNum.num)
     //printTheTicket()
