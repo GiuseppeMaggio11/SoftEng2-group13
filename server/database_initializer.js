@@ -33,7 +33,7 @@ function createTable1 () {
         const query = `CREATE TABLE "queues" (
             "id"	INTEGER NOT NULL,
             "queue"	TEXT NOT NULL,
-            "count"	INTEGER NOT NULL,
+            "ticketNumber"	INTEGER NOT NULL,
             PRIMARY KEY("id" AUTOINCREMENT)
         )`;
         db.run(query, [], (err,rows) => {
@@ -60,7 +60,6 @@ function createTable2 () {
             "queue"	TEXT UNIQUE NOT NULL,
             "amount"    INTEGER NOT NULL,
             "date"  DATE NOT NULL,
-            FOREIGN KEY("queue") REFERENCES "queues"("queue"),
             PRIMARY KEY("id" AUTOINCREMENT)
         )`;
         db.run(query, [], (err,rows) => {
@@ -78,6 +77,25 @@ function populate_table2 (queue, amount, date) {
         });
     }); 
 }
+
+/*
+function createTable1 () {
+    return new Promise ( (resolve,reject) => {
+        const query = `CREATE TABLE "queues" (
+            "id"	INTEGER NOT NULL,
+            "queue"	TEXT NOT NULL,
+            "ticketNumber"	INTEGER NOT NULL,
+            "isServed" BOOL,
+            "date" DATE,
+            PRIMARY KEY("id" AUTOINCREMENT)
+        )`;
+        db.run(query, [], (err,rows) => {
+            if (err) reject(err);
+            else resolve(console.log("Inserted"));
+        });
+    }); 
+}
+*/
 
 
 async function initialize () {

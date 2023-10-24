@@ -12,25 +12,35 @@ const db = new sqlite.Database("database.db", (err) => {
 /***QUERY***/
 
 // get ticket number
-exports.getTicketNumber = () => {
+exports.getTicketNumber = (queueName) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT count FROM queues WHERE ID = 1";
-    db.get(sql, [], (err, row) => {
+    const sql = "SELECT MIN(ticketNumber) AS minTicketNumber FROM queues WHERE queue = ? ";
+    db.get(sql, [queueName], (err, row) => {
       if (err) {
         reject(err);
         return;
       }
-      const count = { count: row.count };
+      const count = { count: row.minTicketNumber};
       resolve(count);
     });
   });
 };
 
 // update queue count
-exports.updateCount = (objQueue) => {
+exports.deleteServed = (name) => {
+  console.log(name)
   return new Promise((resolve, reject) => {
-    const sql = "UPDATE queues SET count = count + 1 WHERE ID = ?";
-    db.run(sql, [objQueue.queue], function (err) {
+    const sql = `
+    DELETE FROM queues
+    WHERE id = (
+        SELECT id
+        FROM queues
+        WHERE queue = ?
+        ORDER BY ticketNumber
+        LIMIT 1
+    )
+`;
+    db.run(sql, [name], function (err) {
       if (err) {
         reject(err);
         return;
@@ -39,3 +49,4 @@ exports.updateCount = (objQueue) => {
     });
   });
 };
+

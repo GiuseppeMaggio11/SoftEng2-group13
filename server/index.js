@@ -28,7 +28,7 @@ app.get("/api/counter", (req, res) => {
 // PUT /api/counter
 app.put(
   "/api/counter",
-  [check("queue").isNumeric().withMessage("Insert a valid queue number")],
+  [check("queue").notEmpty().withMessage("Insert a valid queue name")],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -36,12 +36,14 @@ app.put(
     }
 
     const objQueue = req.body;
-
+    console.log(JSON.stringify(objQueue))
     try {
-      const numRowChanges = await dao.updateCount(objQueue);
-      //res.json(numRowChanges);
-      const objCount = await dao.getTicketNumber();
+      const numRowChanges = await dao.deleteServed(objQueue.queue);
+      const objCount = await dao.getTicketNumber(objQueue.queue);
+      //add +1 to statistics;
       res.json(objCount);
+    
+
     } catch (err) {
       res.status(503).json({
         error: `Database error during the update of queue count ${objQueue.queue}.`,
