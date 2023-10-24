@@ -26,6 +26,55 @@ exports.getTicketNumber = (queueName) => {
   });
 };
 
+exports.updateStatistics = (queueName) => {
+  console.log('f')
+  return new Promise((resolve, reject) => {
+      const today = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
+      console.log('today' + today)
+      // Check if a row for the current date and queue exists
+      const checkQuery = `
+          SELECT * FROM statistics
+          WHERE date = ? AND queue = ?
+      `;
+      db.get(checkQuery, [today, queueName], (err, row) => {
+          if (err) {
+              reject(err);
+              return;
+          }
+          console.log(row)
+          if (row) {
+              // If a row exists, increment the amount by 1
+              const updateQuery = `
+                  UPDATE statistics
+                  SET amount = amount + 1
+                  WHERE date = ? AND queue = ?
+              `;
+              db.run(updateQuery, [today, queueName], (err) => {
+                  if (err) {
+                      reject(err);
+                  } else {
+                      resolve('Row updated');
+                  }
+              });
+          } else {
+              // If no row exists, create a new row with value 1 in the count
+              const insertQuery = `
+                  INSERT INTO statistics (queue, amount, date)
+                  VALUES (?, 1, ?)
+              `;
+              db.run(insertQuery, [queueName, today], (err) => {
+                  if (err) {
+                      reject(err);
+                  } else {
+                      resolve('New row created');
+                  }
+              });
+          }
+      });
+  });
+}
+
+
 // update queue count
 exports.deleteServed = (name) => {
   console.log(name)

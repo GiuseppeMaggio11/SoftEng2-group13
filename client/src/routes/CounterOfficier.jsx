@@ -6,27 +6,61 @@ import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 function CounterOfficier() {
   const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
 
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
         const num = await API.getTicketNumber();
         setNumber(num);
+        if (num.count===null)
+          setIsFirst(true)
       } catch (err) {
         console.log(err);
         setError(true);
       }
     };
 
-    getTicketNumber();
+    //getTicketNumber();
   }, []);
+  const NumberDisplay = ({ number }) => {
+    const numberStyle = {
+      fontWeight: "bold", // Grassetto
+      color: "black", // Colore specificato
+      display: "flex",
+      justifyContent: "center", // Allinea orizzontalmente al centro
+      alignItems: "center", // Allinea verticalmente al centro
+      height: "80vh", // Altezza della viewport
+      fontSize: "200px",
+    };
+  
+    return <div style={numberStyle}>{number}</div>;
+  };
 
-  const handleIncreaseCount = () => {
+  const AllServed = ({ number }) => {
+    const numberStyle = {
+      fontWeight: "bold", // Grassetto
+      color: "black", // Colore specificato
+      display: "flex",
+      justifyContent: "center", // Allinea orizzontalmente al centro
+      alignItems: "center", // Allinea verticalmente al centro
+      height: "80vh", // Altezza della viewport
+      fontSize: "50px",
+    };
+  
+    return isFirst?<div style={numberStyle}>Call the first cutomer</div>:<div style={numberStyle}>all the customers are served</div>
+  };
+  const handleIncreaseCount = async() => {
     //API call the next one
-    API.updateQueueCount('Q1')
+    await API.updateQueueCount('Q1')
       .then((objCount) => {
-        setNumber(objCount);
-      })
+        setNumber(objCount)
+        setIsFirst(false)
+        if(objCount.count!=null){ 
+        API.updateStatisticsCount('Q1').then((response)=>{
+          console.log(response)
+        })
+      }})
       .catch((err) => console.log(err));
   };
 
@@ -58,32 +92,5 @@ function CounterOfficier() {
     </Container>
   );
 }
-
-const NumberDisplay = ({ number }) => {
-  const numberStyle = {
-    fontWeight: "bold", // Grassetto
-    color: "black", // Colore specificato
-    display: "flex",
-    justifyContent: "center", // Allinea orizzontalmente al centro
-    alignItems: "center", // Allinea verticalmente al centro
-    height: "80vh", // Altezza della viewport
-    fontSize: "200px",
-  };
-
-  return <div style={numberStyle}>{number}</div>;
-};
-const AllServed = ({ number }) => {
-  const numberStyle = {
-    fontWeight: "bold", // Grassetto
-    color: "black", // Colore specificato
-    display: "flex",
-    justifyContent: "center", // Allinea orizzontalmente al centro
-    alignItems: "center", // Allinea verticalmente al centro
-    height: "80vh", // Altezza della viewport
-    fontSize: "50px",
-  };
-
-  return <div style={numberStyle}>all the cutomer are served</div>
-};
 
 export default CounterOfficier;

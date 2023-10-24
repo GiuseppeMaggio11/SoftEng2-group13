@@ -36,9 +36,10 @@ app.put(
     }
 
     const objQueue = req.body;
-    console.log(JSON.stringify(objQueue))
     try {
       const numRowChanges = await dao.deleteServed(objQueue.queue);
+      if(numRowChanges>1)
+       throw err;
       const objCount = await dao.getTicketNumber(objQueue.queue);
       //add +1 to statistics;
       res.json(objCount);
@@ -51,6 +52,20 @@ app.put(
     }
   }
 );
+
+app.post("/api/updateStatistics", async (req, res) => {
+  const queueName = req.body.queue; 
+  try {
+      const result = await dao.updateStatistics(queueName);
+      res.json({ message: result });
+  } catch (error) {
+      res.status(503).json({ error: "Database error while updating statistics." });
+  }
+});
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

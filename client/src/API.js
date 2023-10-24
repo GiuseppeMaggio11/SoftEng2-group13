@@ -26,7 +26,7 @@ function getJson(httpResponsePromise) {
 async function getTicketNumber() {
   // call  /api/counter
   return getJson(fetch(SERVER_URL + "counter")).then((objCount) => {
-    console.log('oggetto'+ objCount)
+    console.log('oggetto'+ JSON.stringify(objCount))
     return objCount;
   });
 }
@@ -42,6 +42,7 @@ async function updateQueueCount(name) {
       body: JSON.stringify({ queue: name }),
     });
     const newCount = await response.json();
+    console.log('response'+ JSON.stringify(response))
     if (response.ok) {
       return newCount;
     } else {
@@ -53,5 +54,26 @@ async function updateQueueCount(name) {
   }
 }
 
-const API = { getTicketNumber, updateQueueCount };
+
+async function updateStatisticsCount(name) {
+  try {
+    const response = await fetch(SERVER_URL + "updateStatistics", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ queue: name }),
+    });
+    console.log('response'+ JSON.stringify(response))
+    if (response.ok) {
+      return true;
+    } else {
+      const message = await response.text();
+      throw new Error(message);
+    }
+  } catch (err) {
+    throw new Error(err.message, { cause: err });
+  }
+}
+const API = { getTicketNumber, updateQueueCount, updateStatisticsCount };
 export default API;
