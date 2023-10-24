@@ -13,13 +13,14 @@ const db = new sqlite.Database("database.db", (err) => {
 
 exports.getLastTicket = (queue) => {
     return new Promise ((resolve, reject) => {
-        const sql = 'SELECT MAX(ticketNumber) FROM queues WHERE queue = ?';
-        db.get(sql,[queue] ,(err, rows) => {
+        const sql = 'SELECT MAX(ticketNumber) AS max FROM queues';
+        db.get(sql,(err, rows) => {
             if (err) {
                 reject (err);
                 return;
             } else {
-                resolve (rows);
+                console.log(rows)
+                resolve (rows.max);
                 return;
             }
         })

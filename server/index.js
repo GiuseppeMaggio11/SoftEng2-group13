@@ -36,6 +36,16 @@ app.post('/api/ticket', async (req, res) => {
     }
 })
 
+app.get('/api/lastTicket', async (req, res) => {
+    try{
+        const lastTicket = await dao.getLastTicket(req.body.queue);
+        return res.json(lastTicket)
+    } 
+    catch(err){
+        res.status(503).json({ error: `Database error during the process: ${err}` }); 
+    }
+})
+
 
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);

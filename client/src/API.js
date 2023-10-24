@@ -1,4 +1,4 @@
-//const SERVER_URL = 'http://localhost:3001/api/';
+const SERVER_URL = 'http://localhost:3001/api/';
 
 function getJson(httpResponsePromise) {
     // server API always return JSON, in case of error the format is the following { error: <message> } 
@@ -48,8 +48,25 @@ function getJson(httpResponsePromise) {
       throw new Error(err.message, { cause: err });
     }
   }
+
+  async function getLastTicket() {
+    try {
+      const response = await fetch(SERVER_URL + "lastTicket", {
+        method: "GET"
+      });
+      const ticket = await response.json();
+      if (response.ok) {
+        return ticket;
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (err) {
+      throw new Error(err.message, { cause: err });
+    }
+  }
   
 
   
-  const API = { getTicketNumber };
+  const API = { getTicketNumber, getLastTicket  };
   export default API;

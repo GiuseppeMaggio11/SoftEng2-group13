@@ -4,32 +4,26 @@ import ErrorComp from "../OtherComponents/ErrorComp";
 import { useState, useEffect } from "react";
 
 function Customer() {
-  const [number, setNumber] = useState({ num: 1 });
+  const [number, setNumber] = useState(1);
   const [error, setError] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
 
-  function handleNewTicket(){
-    let newNum = API.newTicketNumber();
-    console.log('new ticket')
-    //let newNum = { ...number }; //mock
-    //newNum.num +=1;
+  async function handleNewTicket(){
+    let newNum = await API.getTicketNumber("Q2");
     setNumber(newNum)
-    console.log(newNum.num)
-    //printTheTicket()
     setShowThankYou(true);
-
     setTimeout(() => {
       setShowThankYou(false);
     }, 1500);
   }
-  let fakeNumber={num:1};
-
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
-        //const objNumber = await API.getTicketNumber();
-        //setNumber(objNumber.num);
-        setNumber(fakeNumber)
+        const initialNumber = await API.getLastTicket();
+        if(initialNumber)
+          setNumber(initialNumber);
+        else  
+          setNumber(0);
       } catch (err) {
         console.log(err);
         setError(true);
@@ -41,7 +35,7 @@ function Customer() {
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
       {!showThankYou && <h2>Hello, we are serving the client number</h2>}
-      {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number.num} />}
+      {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number} />}
       {!showThankYou && <Button variant="primary" onClick={handleNewTicket}>Get a new ticket</Button>}
       {showThankYou && <h1>Thank you!</h1>}
     </Container>

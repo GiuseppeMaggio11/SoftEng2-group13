@@ -60,7 +60,6 @@ function createTable2 () {
             "queue"	TEXT UNIQUE NOT NULL,
             "amount"    INTEGER NOT NULL,
             "date"  DATE NOT NULL,
-            FOREIGN KEY("queue") REFERENCES "queues"("queue"),
             PRIMARY KEY("id" AUTOINCREMENT)
         )`;
         db.run(query, [], (err,rows) => {

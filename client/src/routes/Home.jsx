@@ -21,9 +21,6 @@ function Home() {
       <Link to="/customer" className="m-1">
         <Button style={buttonStyle}>Customer Interface</Button>
       </Link>
-      <Link to="/ticketnumber" className="m-1">
-        <Button style={buttonStyle}>Get Ticket Number</Button>
-      </Link>
       {/*add other buttons*/}
     </Container>
   );
