@@ -8,9 +8,16 @@ const morgan = require('morgan');                                  // logging mi
 const cors = require('cors');
 
 const app = express();
+app.use(morgan('dev'));
+app.use(express.json());
 const port = 3001;
 
-
+/** Set up and enable Cross-Origin Resource Sharing (CORS) **/
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true,
+  };
+  app.use(cors(corsOptions));
 
 app.use(express.json());
 
