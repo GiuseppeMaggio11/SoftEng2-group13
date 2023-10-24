@@ -21,6 +21,20 @@ const corsOptions = {
 
 app.use(express.json());
 
+/*** Users APIs ***/
+//POST /api/ticket
+//This route is used for getting the ticket
+app.post('/api/ticket', async (req, res) => {
+    try{
+        const lastTicket = await dao.getLastTicket(req.body.queue);
+        const newTicket = lastTicket + 1;
+        const response = await dao.addTicket(req.body.queue, newTicket); 
+        return res.json(newTicket)
+    } catch(err){
+        res.status(503).json({ error: `Database error during the process: ${err}` }); 
+
+    }
+})
 
 
 app.listen(port, () => {
