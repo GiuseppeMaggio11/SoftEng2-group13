@@ -135,8 +135,29 @@ async function updateStatisticsCount(name) {
     }
   }
   
+  async function getQueueLenght(name) {
+    try {
+      const response = await fetch(`${SERVER_URL}getlenght?queue=${name}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const count = await response.json();
+  
+      if (response.ok) {
+        return count;
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (err) {
+      throw new Error(err.message, { cause: err });
+    }
+  }
   
 
   
-  const API = { getTicketNumber, updateQueueCount, updateStatisticsCount, newCustomer, getLastTicket};
+  const API = { getTicketNumber, updateQueueCount, updateStatisticsCount, newCustomer, getLastTicket, getQueueLenght};
   export default API;

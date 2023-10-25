@@ -117,6 +117,21 @@ exports.getLastTicket = (queue) => {
     })
 }
 
+exports.getQueueLenght = (queue) => {
+    return new Promise ((resolve, reject) => {
+        const sql = 'SELECT count(*) AS C FROM queues WHERE queue = ?';
+        db.get(sql,[queue] ,(err, row) => {
+            if (err) {
+                reject (err);
+                return;
+            } else {
+                resolve (row.C);
+                return;
+            }
+        })
+    })
+}
+
 exports.addTicket = (queue, ticket) => {
     return new Promise ((resolve, reject) => {
         const sql = 'INSERT INTO queues (queue, ticketNumber) VALUES (?,?)'

@@ -102,7 +102,17 @@ app.get("/api/getlast", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+app.get("/api/getlenght", (req, res) => {
+  const queueName = req.query.queue;
+  if (!queueName) {
+    return res.status(400).json({ error: "Missing 'queue' parameter in query string" });
+  }
 
+  dao
+    .getQueueLenght(queueName)
+    .then((count) => res.json(count))
+    .catch(() => res.status(500).end());
+});
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
