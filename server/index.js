@@ -1,16 +1,10 @@
 "use strict";
 
 const express = require("express");
-<<<<<<< HEAD
-const cors = require('cors');
-const dao = require("./dao");           // module for accessing the DB
-
-=======
 const dao = require("./dao"); // module for accessing the DB
 const morgan = require("morgan"); // logging middleware
 const cors = require("cors");
 const { check, validationResult } = require("express-validator");
->>>>>>> origin/main
 
 const app = express();
 app.use(morgan('dev'));
@@ -106,35 +100,6 @@ app.get("/api/getlast", (req, res) => {
     .getLastTicket(queueName)
     .then((count) => res.json(count))
     .catch(() => res.status(500).end());
-});
-
-
-
-const corsOptions = {
-    origin: 'http://localhost:5173',
-    credentials: true,
-};
-app.use(cors(corsOptions));
-
-
-
-app.get("/api/counter", (req, res) => {
-    dao.getQueuesTotal()
-        .then(count => res.status(200).json(count))
-        .catch((err) => res.status(500).json(err));
-})
-
-app.put("/api/reset", async (req, res) => {
-    try {
-        const result = await dao.resetQueuesTotal();
-        if (result.error) {
-            res.status(404).json(result);
-        }
-        else res.status(200).json(result);
-    }
-    catch (err) {
-        res.status(503).json(err);
-    }
 });
 
 
