@@ -50,7 +50,7 @@ function Customer() {
       {!showThankYou && number.count!=0 && <h2>Hello, we are serving the client number</h2>}
       {!showThankYou && number.count==0 && <h2>Hello, no clients are in line</h2>}
       {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number.count} />}
-      {!showThankYou && number.count!=0 && <><h2>number of people before you:</h2><h2>{numOfPeopleWaiting}</h2></>}
+      {!showThankYou && number.count!=0 && <><h2>number of people before you:</h2><h2>{numOfPeopleWaiting + 1}</h2></>}
       {!showThankYou && <Button variant="primary" onClick={handleNewTicket}>Get a new ticket</Button>}
       {showThankYou && <h1>Thank you!</h1>}
     </Container>

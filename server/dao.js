@@ -102,8 +102,17 @@ exports.deleteServed = (name) => {
 
 exports.getLastTicket = (queue) => {
     return new Promise ((resolve, reject) => {
-        const sql = 'SELECT MAX(ticketNumber) AS maxTicketNumber FROM queues WHERE queue = ?';
-        db.get(sql,[queue] ,(err, row) => {
+        const sql = `SELECT MAX(value) AS maxTicketNumber
+        FROM (
+            SELECT MAX(amount) AS value
+            FROM statistics
+            WHERE queue = ? 
+            UNION ALL
+            SELECT MAX(ticketNumber) AS value
+            FROM queues
+            WHERE queue = ? 
+        ) AS subquery;`;
+        db.get(sql,[queue,queue] ,(err, row) => {
             if (err) {
                 reject (err);
                 return;

@@ -49,7 +49,7 @@ function CounterOfficier() {
       fontSize: "50px",
     };
   
-    return isFirst?<div style={numberStyle}>Call the first cutomer</div>:<div style={numberStyle}>all the customers are served</div>
+    return isFirst?<div style={numberStyle}>Call the first customer</div>:<div style={numberStyle}>All the customers are served</div>
   };
   const handleIncreaseCount = async() => {
     //API call the next one

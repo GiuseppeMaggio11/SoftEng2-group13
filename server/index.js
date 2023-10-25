@@ -80,6 +80,7 @@ app.post('/api/ticket', async (req, res) => {
     try{
         const objLastTicket = await dao.getLastTicket(req.body.queue);
         const newTicket = objLastTicket.count + 1;
+        console.log(objLastTicket.count )
         // CHECK THE RESPONSE!
         const response = await dao.addTicket(req.body.queue, newTicket); 
         return res.json(newTicket)
