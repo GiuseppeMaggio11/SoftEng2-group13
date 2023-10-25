@@ -1,11 +1,11 @@
-import { Alert } from "react-bootstrap";
+import { Alert, Button, Col, Row, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import API from "../API";
 
 
 function Manager() {
-    const [queueCounter, setQueueCounter] = useState({ count: 0 });
-    const [dirtyCount, setDirtyCount] = useState(true);
+    const [queueTotals, setQueueTotals] = useState([]);
+    const [dirtyTotals, setDirtyTotals] = useState(true);
     const [errorMsg, setErrorMsg] = useState("");
 
 
@@ -22,26 +22,26 @@ function Manager() {
         }
         setErrorMsg(errMsg);
     }
-    
+
 
 
     useEffect(() => {
-        if (dirtyCount == true) {
-            API.getCount()
-                .then((count) => {
-                    setQueueCounter(Object.assign({}, { count: count }));
-                    setDirtyCount(false);
+        if (dirtyTotals == true) {
+            API.getTotals()
+                .then((totals) => {
+                    setQueueTotals(totals);
+                    setDirtyTotals(false);
                 })
                 .catch((err) => handleError(err));
         }
-    }, [dirtyCount]);
+    }, [dirtyTotals]);
 
 
 
-    const resetCount = () => {
-        setQueueCounter(Object.assign({}, { count: queueCounter.count, updated: true }));
+    const resetTotals = () => {
+        setQueueTotals(oldList => oldList.map(element => Object.assign({}, element, { updated: true })));
         API.resetQueuesTotal()
-            .then(() => setDirtyCount(true))
+            .then(() => setDirtyTotals(true))
             .catch((err) => handleError(err));
     }
 
@@ -50,8 +50,36 @@ function Manager() {
         <>
             {errorMsg ? <Alert variant='danger' style={{ margin: "1rem" }} dismissible onClose={() => setErrorMsg("")}>
                 {errorMsg}</Alert> : null}
-            <h2 className={queueCounter.updated ? "bg-warning text-black" : "bg-warning text-dark"}>Queue Counter: {queueCounter.count}</h2>
-            <button onClick={resetCount}>Reset counter</button>
+            <div style={{ marginRight: "15rem", marginLeft: "15rem", marginTop: "10rem" }}>
+                <Table hover>
+                    <thead>
+                        <tr>
+                            <th>Queue name</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            [...queueTotals].sort((a, b) => a.queue.localeCompare(b.queue))
+                                .map((e, index) => {
+                                    let statusClass = e.updated ? "table-warning" : "";
+
+                                    return (
+                                        <tr key={index} className={statusClass}>
+                                            <td>{e.queue}</td>
+                                            <td>{e.total}</td>
+                                        </tr>
+                                    )
+                                })
+                        }
+                    </tbody>
+                </Table>
+                <Row style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                    <Col className="d-flex justify-content-center">
+                        <Button variant="primary" onClick={resetTotals}>Reset totals</Button>
+                    </Col>
+                </Row>
+            </div>
         </>
     );
 }
