@@ -10,7 +10,7 @@ function TicketNumber() {
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
-        const objCount = await API.getTicketNumber();
+        const objCount = await API.getTicketNumber('Q1');
         setNumber(objCount);
       } catch (err) {
         console.log(err);
