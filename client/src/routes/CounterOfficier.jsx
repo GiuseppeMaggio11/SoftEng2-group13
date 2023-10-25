@@ -7,11 +7,11 @@ function CounterOfficier() {
   const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
-
+/*
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
-        const num = await API.getTicketNumber();
+        const num = await API.getTicketNumber('Q1');
         setNumber(num);
         if (num.count===null)
           setIsFirst(true)
@@ -21,8 +21,9 @@ function CounterOfficier() {
       }
     };
 
-    //getTicketNumber();
+    getTicketNumber();
   }, []);
+  */
   const NumberDisplay = ({ number }) => {
     const numberStyle = {
       fontWeight: "bold", // Grassetto
@@ -52,16 +53,25 @@ function CounterOfficier() {
   };
   const handleIncreaseCount = async() => {
     //API call the next one
-    await API.updateQueueCount('Q1')
-      .then((objCount) => {
-        setNumber(objCount)
-        setIsFirst(false)
-        if(objCount.count!=null){ 
-        API.updateStatisticsCount('Q1').then((response)=>{
-          console.log(response)
+    if(isFirst){
+      await API.getTicketNumber('Q1')
+        .then((objCount)=>{
+          setNumber(objCount)
+          setIsFirst(false)
         })
-      }})
-      .catch((err) => console.log(err));
+
+    }
+    else{
+      await API.updateQueueCount('Q1')
+        .then((objCount) => {
+          setNumber(objCount)
+          if(objCount.count!=null){ 
+          API.updateStatisticsCount('Q1').then((response)=>{
+            console.log(response)
+          })
+        }})
+        .catch((err) => console.log(err));
+    }
   };
 
   return (

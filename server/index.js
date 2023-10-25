@@ -17,10 +17,16 @@ app.use(cors(corsOptions));
 
 /***API***/
 
-// GET /api/counter
-app.get("/api/counter", (req, res) => {
+// GET /api/getfirst
+app.get("/api/getfirst", (req, res) => {
+  const queueName = req.query.queue;
+ console.log(queueName)
+  if (!queueName) {
+    return res.status(400).json({ error: "Missing 'queue' parameter in query string" });
+  }
+
   dao
-    .getTicketNumber()
+    .getTicketNumber(queueName)
     .then((count) => res.json(count))
     .catch(() => res.status(500).end());
 });

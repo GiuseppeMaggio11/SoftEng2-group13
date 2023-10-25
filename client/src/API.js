@@ -23,13 +23,28 @@ function getJson(httpResponsePromise) {
   });
 }
 
-async function getTicketNumber() {
-  // call  /api/counter
-  return getJson(fetch(SERVER_URL + "counter")).then((objCount) => {
-    console.log('oggetto'+ JSON.stringify(objCount))
-    return objCount;
-  });
+async function getTicketNumber(name) {
+  try {
+    const response = await fetch(`${SERVER_URL}getFirst?queue=${name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const newCount = await response.json();
+
+    if (response.ok) {
+      return newCount;
+    } else {
+      const message = await response.text();
+      throw new Error(message);
+    }
+  } catch (err) {
+    throw new Error(err.message, { cause: err });
+  }
 }
+
 
 async function updateQueueCount(name) {
   // call  PUT /api/counter
