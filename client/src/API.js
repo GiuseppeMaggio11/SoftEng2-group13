@@ -92,8 +92,7 @@ async function updateStatisticsCount(name) {
 }
 
 
-  async function getLastTicketNumber(name) {
-    // call  PUT /api/ticket
+  async function newCustomer(name) {
     try {
       const response = await fetch(SERVER_URL + "ticket", {
         method: "POST",
@@ -113,8 +112,31 @@ async function updateStatisticsCount(name) {
       throw new Error(err.message, { cause: err });
     }
   }
+
+  async function getLastTicket(name) {
+    try {
+      const response = await fetch(`${SERVER_URL}getlast?queue=${name}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const newCount = await response.json();
+  
+      if (response.ok) {
+        return newCount;
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (err) {
+      throw new Error(err.message, { cause: err });
+    }
+  }
+  
   
 
   
-  const API = { getTicketNumber, updateQueueCount, updateStatisticsCount, getLastTicketNumber };
+  const API = { getTicketNumber, updateQueueCount, updateStatisticsCount, newCustomer, getLastTicket};
   export default API;

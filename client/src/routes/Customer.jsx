@@ -4,32 +4,27 @@ import ErrorComp from "../OtherComponents/ErrorComp";
 import { useState, useEffect } from "react";
 
 function Customer() {
-  const [number, setNumber] = useState({ num: 1 });
+  const [number, setNumber] = useState({count:0});
   const [error, setError] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
 
-  function handleNewTicket(){
-    let newNum = API.getLastTicketNumber();
-    console.log('new ticket')
-    //let newNum = { ...number }; //mock
-    //newNum.num +=1;
-    setNumber(newNum)
-    console.log(newNum.num)
-    //printTheTicket()
+  async function handleNewTicket(){
+    let newNum = await API.newCustomer("Q1");
+    setNumber({count: newNum})
     setShowThankYou(true);
-
     setTimeout(() => {
       setShowThankYou(false);
     }, 1500);
   }
-  let fakeNumber={num:1};
 
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
-        //const objNumber = await API.getTicketNumber();
-        //setNumber(objNumber.num);
-        setNumber(fakeNumber)
+        const objInitialNumber = await API.getLastTicket('Q1');
+        console.log(objInitialNumber.count)
+        if(objInitialNumber.count)
+          setNumber(objInitialNumber);
+
       } catch (err) {
         console.log(err);
         setError(true);
@@ -40,8 +35,9 @@ function Customer() {
 
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-      {!showThankYou && <h2>Hello, we are serving the client number</h2>}
-      {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number.num} />}
+      {!showThankYou && number.count!=0 && <h2>Hello, we are serving the client number</h2>}
+      {!showThankYou && number.count==0 && <h2>Hello, no clients are in line</h2>}
+      {error ? <ErrorComp /> : !showThankYou && <NumberDisplay number={number.count} />}
       {!showThankYou && <Button variant="primary" onClick={handleNewTicket}>Get a new ticket</Button>}
       {showThankYou && <h1>Thank you!</h1>}
     </Container>

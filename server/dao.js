@@ -20,6 +20,7 @@ exports.getTicketNumber = (queueName) => {
         reject(err);
         return;
       }
+      console.log(row)
       const count = { count: row.minTicketNumber};
       resolve(count);
     });
@@ -101,13 +102,15 @@ exports.deleteServed = (name) => {
 
 exports.getLastTicket = (queue) => {
     return new Promise ((resolve, reject) => {
-        const sql = 'SELECT MAX(ticketNumber) FROM queues WHERE queue = ?';
-        db.get(sql,[queue] ,(err, rows) => {
+        const sql = 'SELECT MAX(ticketNumber) AS maxTicketNumber FROM queues WHERE queue = ?';
+        db.get(sql,[queue] ,(err, row) => {
             if (err) {
                 reject (err);
                 return;
             } else {
-                resolve (rows);
+                console.log(row)
+                let count = {count : row.maxTicketNumber}
+                resolve (count);
                 return;
             }
         })

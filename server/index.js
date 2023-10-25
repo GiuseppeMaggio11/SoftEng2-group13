@@ -78,8 +78,9 @@ app.post("/api/updateStatistics", async (req, res) => {
 //This route is used for getting the ticket
 app.post('/api/ticket', async (req, res) => {
     try{
-        const lastTicket = await dao.getLastTicket(req.body.queue);
-        const newTicket = lastTicket + 1;
+        const objLastTicket = await dao.getLastTicket(req.body.queue);
+        const newTicket = objLastTicket.count + 1;
+        // CHECK THE RESPONSE!
         const response = await dao.addTicket(req.body.queue, newTicket); 
         return res.json(newTicket)
     } catch(err){
@@ -87,6 +88,20 @@ app.post('/api/ticket', async (req, res) => {
 
     }
 })
+
+app.get("/api/getlast", (req, res) => {
+  const queueName = req.query.queue;
+ console.log(queueName)
+  if (!queueName) {
+    return res.status(400).json({ error: "Missing 'queue' parameter in query string" });
+  }
+
+  dao
+    .getLastTicket(queueName)
+    .then((count) => res.json(count))
+    .catch(() => res.status(500).end());
+});
+
 
 
 app.listen(port, () => {
