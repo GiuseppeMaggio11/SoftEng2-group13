@@ -103,6 +103,28 @@ app.get("/api/getlast", (req, res) => {
 });
 
 
+app.get("/api/totals", (req, res) => {
+  dao.getLastTicketAll()
+      .then(count => res.status(200).json(count))
+      .catch((err) => res.status(500).json(err));
+});
+
+
+app.put("/api/reset", async (req, res) => {
+  try {
+      const result = await dao.resetQueuesTotal();
+      if (result.error) {
+          res.status(404).json(result);
+      }
+      else res.status(200).json(result);
+  }
+  catch (err) {
+      res.status(503).json(err);
+  }
+});
+
+
+
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
