@@ -7,7 +7,7 @@ function CounterOfficier() {
   const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
-/*
+  /*
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
@@ -34,7 +34,7 @@ function CounterOfficier() {
       height: "80vh", // Altezza della viewport
       fontSize: "200px",
     };
-  
+
     return <div style={numberStyle}>{number}</div>;
   };
 
@@ -48,27 +48,31 @@ function CounterOfficier() {
       height: "80vh", // Altezza della viewport
       fontSize: "50px",
     };
-  
-    return isFirst?<div style={numberStyle}>Call the first customer</div>:<div style={numberStyle}>All the customers are served</div>
+
+    return isFirst ? (
+      <div style={numberStyle}>Call the first customer</div>
+    ) : (
+      <div style={numberStyle}>All the customers are served</div>
+    );
   };
-  const handleIncreaseCount = async() => {
+  const handleIncreaseCount = async () => {
     //API call the next one
-    if(isFirst){
-      await API.getTicketNumber('Q1')
-        .then((objCount)=>{
-          setNumber(objCount)
-          setIsFirst(false)
-        }).catch((err)=>{
-          setError(err);
-        })
-    }
-    else{
-      await API.updateQueueCount('Q1')
+    if (isFirst) {
+      await API.getTicketNumber("Q1")
         .then((objCount) => {
-          setNumber(objCount)
-          API.updateStatisticsCount('Q1').then((response)=>{
-            console.log(response)
-          })
+          setNumber(objCount);
+          setIsFirst(false);
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    } else {
+      await API.updateQueueCount("Q1")
+        .then((objCount) => {
+          setNumber(objCount);
+          API.updateStatisticsCount("Q1").then((response) => {
+            // console.log(response)
+          });
         })
         .catch((err) => setError(err));
     }
@@ -96,7 +100,13 @@ function CounterOfficier() {
           </Button>
         </Col>
         <Col>
-          {error ? <ErrorComp /> : number.count!=null?<NumberDisplay number={number.count}/>:<AllServed/>}
+          {error ? (
+            <ErrorComp />
+          ) : number.count != null ? (
+            <NumberDisplay number={number.count} />
+          ) : (
+            <AllServed />
+          )}
         </Col>
       </Row>
     </Container>
