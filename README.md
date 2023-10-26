@@ -21,8 +21,8 @@
 * Description: Get last customer number
 * Response: `200 OK` (success)
 * Response body: Last ticket
-``` json
-    {count : number}
+```
+    { count : number }
 ```
 
 - UPDATE QUEUE COUNT / CALL NEXT CUSTOMER
@@ -31,6 +31,6 @@
 * Request body: 'queue' name
 * Response: `200 OK` (success)
 * Response body: 
-``` json
+``` 
     { numRowUpdated: number }
 ```
