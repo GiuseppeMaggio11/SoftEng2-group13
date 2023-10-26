@@ -85,6 +85,9 @@ async function initialize () {
         await dropTable("statistics");
         await createTable1();
         await createTable2();
+        populate_table1 ("Q1", 1);
+        populate_table1 ("Q1", 10);
+        populate_table1 ("Q1", 2);
     }
     catch (err) {
         console.log(err)
