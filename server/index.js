@@ -19,7 +19,10 @@ app.use(cors(corsOptions));
 
 /***API***/
 
-// GET /api/getfirst
+/**
+ * GET /api/getfirst
+ * Retrieves the ticket number of the specified queue
+ */
 app.get("/api/getfirst", (req, res) => {
   const queueName = req.query.queue;
  console.log(queueName)
@@ -33,7 +36,10 @@ app.get("/api/getfirst", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
-// PUT /api/counter
+/**
+ * PUT /api/counter
+ * Updates the queue count
+ */
 app.put(
   "/api/counter",
   [check("queue").notEmpty().withMessage("Insert a valid queue name")],
@@ -61,6 +67,10 @@ app.put(
   }
 );
 
+/**
+ * POST /api/updateStatistics
+ * Updates the statistics for the specified queue
+ */
 app.post("/api/updateStatistics", async (req, res) => {
   const queueName = req.body.queue; 
   try {
@@ -75,7 +85,7 @@ app.post("/api/updateStatistics", async (req, res) => {
 
 /*** Users APIs ***/
 //POST /api/ticket
-//This route is used for getting the ticket
+//Generates a ticket
 app.post('/api/ticket', async (req, res) => {
     try{
         const objLastTicket = await dao.getLastTicket(req.body.queue);
@@ -90,6 +100,10 @@ app.post('/api/ticket', async (req, res) => {
     }
 })
 
+/**
+ * GET /api/getlast
+ * Retrieves the last ticket number of the specified queue
+ */
 app.get("/api/getlast", (req, res) => {
   const queueName = req.query.queue;
  console.log(queueName)
@@ -103,6 +117,10 @@ app.get("/api/getlast", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+/**
+ * GET /api/getlenght
+ * Retrieves the length of the specified queue
+ */
 app.get("/api/getlenght", (req, res) => {
   const queueName = req.query.queue;
   if (!queueName) {
@@ -115,12 +133,20 @@ app.get("/api/getlenght", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+/**
+ * GET /api/totals
+ * Retrieves queue totals
+ */
 app.get("/api/totals", (req, res) => {
   dao.getLastTicketAll()
       .then(count => res.status(200).json(count))
       .catch((err) => res.status(500).json(err));
 });
 
+/**
+ * PUT /api/reset
+ * Reset queue totals
+ */
 app.put("/api/reset", async (req, res) => {
   try {
       const result = await dao.resetQueuesTotal();
