@@ -9,6 +9,10 @@ function Customer() {
   const [showThankYou, setShowThankYou] = useState(false);
   const [numOfPeopleWaiting, setNumOfPeopleWaiting] = useState(0);
 
+  /**
+   * Generates a new customer ticket,
+   * updating the queue count, and displaying a thank-you message.
+   */
   async function handleNewTicket(){
     let newNum = await API.newCustomer("Q1");
     setNumber({count: newNum})
@@ -19,6 +23,10 @@ function Customer() {
     }, 1500);
   }
 
+  /**
+   * Retrieves the number of people waiting in a specific queue ('Q1') 
+   * and updates the component's state to reflect this count.
+   */
   const numberOfPeopleWaiting = async() => {
     try{
      const lenght = await API.getQueueLenght('Q1');
@@ -28,7 +36,15 @@ function Customer() {
     }
   }
 
+  /**
+   * Retrieves the initial ticket number for 'Q1' from the API.
+   * Sets the initial ticket number in the component's state if available.
+   * Initializes an interval to periodically update the number of people waiting.
+   */
   useEffect(() => {
+    /**
+     * Retrieves the initial ticket number of Q1 and updates the component's state.
+     */
     const getTicketNumber = async () => {
       try {
         const objInitialNumber = await API.getLastTicket('Q1');

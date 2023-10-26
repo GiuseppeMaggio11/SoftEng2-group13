@@ -3,10 +3,21 @@ import API from "../API";
 import ErrorComp from "../OtherComponents/ErrorComp";
 import { Alert, Container } from "react-bootstrap";
 
+/**
+ * Displays the current ticket number of 'Q1' and does periodic updates.
+ *
+ * This component initializes state for the ticket number and error status, and utilizes the 'useEffect'
+ * hook to retrieve and update the ticket number from the API at regular intervals.
+ *
+ * @returns {JSX.Element} The JSX element for displaying the current ticket number and error component.
+ */
 function TicketNumber() {
   const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
 
+  /**
+   * Retrieves and updates the ticket number
+   */
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
