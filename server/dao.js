@@ -28,7 +28,6 @@ exports.getTicketNumber = (queueName) => {
 };
 
 exports.updateStatistics = (queueName) => {
-  console.log('f')
   return new Promise((resolve, reject) => {
       const today = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
       console.log('today' + today)

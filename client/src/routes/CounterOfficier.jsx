@@ -66,11 +66,9 @@ function CounterOfficier() {
       await API.updateQueueCount('Q1')
         .then((objCount) => {
           setNumber(objCount)
-          if(objCount.count!=null){ 
-          API.updateStatisticsCount('Q1').then((response)=>{
-            console.log(response)
+            API.updateStatisticsCount('Q1').then((response)=>{
           })
-        }})
+        })
         .catch((err) => setError(err));
     }
   };
