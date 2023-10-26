@@ -58,8 +58,9 @@ function CounterOfficier() {
         .then((objCount)=>{
           setNumber(objCount)
           setIsFirst(false)
+        }).catch((err)=>{
+          setError(err);
         })
-
     }
     else{
       await API.updateQueueCount('Q1')
@@ -70,7 +71,7 @@ function CounterOfficier() {
             console.log(response)
           })
         }})
-        .catch((err) => console.log(err));
+        .catch((err) => setError(err));
     }
   };
 
