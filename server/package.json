@@ -4,16 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "SET TEST_DB=true && jest",
+    "test:coverage": "SET TEST_DB=true && jest --runInBand --coverage --colors",
+    "test:unit": "SET TEST_DB=true && npx jest --runInBand --coverage --coverageDirectory=coverage/coverage_unit --colors dao.unit.test.js",
+    "test:integration": "SET TEST_DB=true && npx jest --runInBand --coverage --coverageDirectory=coverage/coverage_integration --colors dao.integration.test.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "sqlite3": "^5.1.6",
-    "cors": "^2.8.5",
     "express-validator": "^7.0.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

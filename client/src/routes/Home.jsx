@@ -26,7 +26,10 @@ function Home() {
       </Link>
       <Link to="/counterofficier" className="m-1">
         <Button>Counter Officier</Button>
-        </Link>
+      </Link>
+      <Link to="/manager" className="m-1">
+        <Button style={buttonStyle}>Manager Interface</Button>
+      </Link>
       {/*add other buttons*/}
     </Container>
   );
