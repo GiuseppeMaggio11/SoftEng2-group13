@@ -163,6 +163,7 @@ async function updateStatisticsCount(name) {
     });
   }
 
+
   
   const API = { getTicketNumber, updateQueueCount, updateStatisticsCount, newCustomer, getLastTicket, getTotals, resetQueuesTotal};
   export default API;

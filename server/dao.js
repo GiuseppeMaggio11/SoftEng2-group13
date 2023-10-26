@@ -145,7 +145,7 @@ exports.getLastTicketAll = () => {
             }
             resolve(rows);
         });
-    });
+    }); 
 }
 
 exports.resetQueuesTotal = () => {
@@ -158,7 +158,7 @@ exports.resetQueuesTotal = () => {
             } else {
                 resolve(this.changes);
             }
-
+            
         });
-    });
+    }); 
 }
