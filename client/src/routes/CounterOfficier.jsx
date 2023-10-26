@@ -49,7 +49,7 @@ function CounterOfficier() {
       fontSize: "50px",
     };
   
-    return isFirst?<div style={numberStyle}>Call the first cutomer</div>:<div style={numberStyle}>all the customers are served</div>
+    return isFirst?<div style={numberStyle}>Call the first customer</div>:<div style={numberStyle}>All the customers are served</div>
   };
   const handleIncreaseCount = async() => {
     //API call the next one
@@ -58,19 +58,19 @@ function CounterOfficier() {
         .then((objCount)=>{
           setNumber(objCount)
           setIsFirst(false)
+        }).catch((err)=>{
+          setError(err);
         })
-
     }
     else{
       await API.updateQueueCount('Q1')
         .then((objCount) => {
           setNumber(objCount)
-          if(objCount.count!=null){ 
           API.updateStatisticsCount('Q1').then((response)=>{
             console.log(response)
           })
-        }})
-        .catch((err) => console.log(err));
+        })
+        .catch((err) => setError(err));
     }
   };
 

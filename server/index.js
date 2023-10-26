@@ -80,6 +80,7 @@ app.post('/api/ticket', async (req, res) => {
     try{
         const objLastTicket = await dao.getLastTicket(req.body.queue);
         const newTicket = objLastTicket.count + 1;
+        console.log(objLastTicket.count )
         // CHECK THE RESPONSE!
         const response = await dao.addTicket(req.body.queue, newTicket); 
         return res.json(newTicket)
@@ -102,7 +103,17 @@ app.get("/api/getlast", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+app.get("/api/getlenght", (req, res) => {
+  const queueName = req.query.queue;
+  if (!queueName) {
+    return res.status(400).json({ error: "Missing 'queue' parameter in query string" });
+  }
 
+  dao
+    .getQueueLenght(queueName)
+    .then((count) => res.json(count))
+    .catch(() => res.status(500).end());
+});
 
 app.put("/api/reset", async (req, res) => {
     try {

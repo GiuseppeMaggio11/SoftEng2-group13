@@ -101,9 +101,19 @@ exports.deleteServed = (name) => {
 }
 
 exports.getLastTicket = (queue) => {
+    const today = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
     return new Promise ((resolve, reject) => {
-        const sql = 'SELECT MAX(ticketNumber) AS maxTicketNumber FROM queues WHERE queue = ?';
-        db.get(sql,[queue] ,(err, row) => {
+        const sql = `SELECT MAX(value) AS maxTicketNumber
+        FROM (
+            SELECT MAX(amount) AS value
+            FROM statistics
+            WHERE queue = ? AND date = ?
+            UNION ALL
+            SELECT MAX(ticketNumber) AS value
+            FROM queues
+            WHERE queue = ? 
+        ) AS subquery;`;
+        db.get(sql,[queue, today, queue] ,(err, row) => {
             if (err) {
                 reject (err);
                 return;
@@ -111,6 +121,21 @@ exports.getLastTicket = (queue) => {
                 console.log(row)
                 let count = {count : row.maxTicketNumber}
                 resolve (count);
+                return;
+            }
+        })
+    })
+}
+
+exports.getQueueLenght = (queue) => {
+    return new Promise ((resolve, reject) => {
+        const sql = 'SELECT count(*) AS C FROM queues WHERE queue = ?';
+        db.get(sql,[queue] ,(err, row) => {
+            if (err) {
+                reject (err);
+                return;
+            } else {
+                resolve (row.C);
                 return;
             }
         })

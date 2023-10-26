@@ -11,15 +11,20 @@ function TicketNumber() {
     const getTicketNumber = async () => {
       try {
         const objCount = await API.getTicketNumber('Q1');
-        setNumber(objCount);
+        if(objCount.count != number.count)
+          setNumber(objCount);
       } catch (err) {
         console.log(err);
         setError(true);
       }
-    };
+    }
+    const interval = setInterval(() => {
+      getTicketNumber();
+    }, 300);
 
-    getTicketNumber();
-  }, []);
+    // Clear the interval when the component is unmounted or when the effect is re-run
+    return () => clearInterval(interval);
+  }, []); 
 
   return (
     <Container className="text-center">
