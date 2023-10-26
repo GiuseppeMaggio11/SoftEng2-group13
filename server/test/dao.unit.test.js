@@ -204,3 +204,133 @@ describe("deleteServed", () => {
     });
 
 });
+
+
+describe("getQueLenght", ()=> {
+    test("Should return a valid queue lenght", async()=> {
+        const mockRes = 5;
+        const mockGet = jest.spyOn(sqlite.Database.prototype, "get");
+        mockGet.mockImplementation((sql, params, callback) => {
+            callback(null, { C: mockRes });
+        });
+
+        const result = await(dao.getQueueLenght("QTest"));
+
+        expect(mockGet).toHaveBeenCalledWith(
+            "SELECT count(*) AS C FROM queues WHERE queue = ?",
+            ["QTest"],
+            expect.any(Function)
+        );
+        expect(result).toEqual(mockRes);
+
+    })
+
+    test("Should reject with an error if the database query fails", async () => {
+        const mockError = new Error("Error");
+        const mockGet = jest.spyOn(sqlite.Database.prototype, "get");
+        mockGet.mockImplementation((sql, params, callback) => {
+            callback(mockError, null);
+        });
+
+        await expect(dao.getQueueLenght("QTest")).rejects.toThrowError(mockError);
+    });
+
+})
+
+describe("newCustomer", ()=>{
+
+    test("Should return a valid ticket number", async () => {
+        const mockRow = {queue: "Q1" ,total: 42 };
+        const mockAll = jest.spyOn(sqlite.Database.prototype, "all");
+        mockAll.mockImplementation((sql, params, callback) => {
+            callback(null, mockRow);
+        });
+
+        const result = await dao.getLastTicketAll();
+
+        expect(mockAll).toHaveBeenCalledWith(
+            "SELECT queue, MAX(ticketNumber) AS total FROM queues GROUP BY queue",
+            [],
+            expect.any(Function)
+        );
+
+        expect(result).toEqual({ queue: "Q1" ,total: 42});
+    });
+
+    test("Should reject with an error if the database query fails", async () => {
+        const mockError = new Error("Error");
+        const mockGet = jest.spyOn(sqlite.Database.prototype, "all");
+        mockGet.mockImplementation((sql, params, callback) => {
+            callback(mockError, null);
+        });
+
+        await expect(dao.getLastTicketAll()).rejects.toThrowError(mockError);
+    });
+
+    test("Should create a new row for new ticket number ", async () => {
+
+        const mockRun = jest.spyOn(sqlite.Database.prototype, "run");
+        mockRun.mockImplementation((sql, params, callback) => {
+            callback(null);
+        });
+
+        const result = await dao.addTicket("QTest", 4);
+
+        expect(mockRun).toHaveBeenCalledWith(
+            'INSERT INTO queues (queue, ticketNumber) VALUES (?,?)',
+            ["QTest", 4 ],
+            expect.any(Function)
+        );
+
+        expect(result).toEqual();
+    });
+
+    test("Should reject with an error if the database query fails when inserting a new row (or a database error occurres)", async () => {
+        const mockError = new Error("Error");
+        const mockRun = jest.spyOn(sqlite.Database.prototype, "run");
+        mockRun.mockImplementation((sql, params, callback) => {
+            callback(mockError, null);
+        });
+
+        await expect(dao.addTicket("QTest", 4)).rejects.toThrowError(mockError);
+        expect(mockRun).toHaveBeenCalled();
+    });
+
+
+
+
+
+})
+
+
+
+describe("getLastTicket", ()=> {
+    test("Should return a valid ticket number", async () => {
+        const mockRow = {queue: "Q1" ,total: 42 };
+        const mockAll = jest.spyOn(sqlite.Database.prototype, "all");
+        mockAll.mockImplementation((sql, params, callback) => {
+            callback(null, mockRow);
+        });
+
+        const result = await dao.getLastTicketAll();
+
+        expect(mockAll).toHaveBeenCalledWith(
+            "SELECT queue, MAX(ticketNumber) AS total FROM queues GROUP BY queue",
+            [],
+            expect.any(Function)
+        );
+
+        expect(result).toEqual({ queue: "Q1" ,total: 42});
+    });
+
+    test("Should reject with an error if the database query fails", async () => {
+        const mockError = new Error("Error");
+        const mockGet = jest.spyOn(sqlite.Database.prototype, "all");
+        mockGet.mockImplementation((sql, params, callback) => {
+            callback(mockError, null);
+        });
+
+        await expect(dao.getLastTicketAll()).rejects.toThrowError(mockError);
+    });
+
+})
