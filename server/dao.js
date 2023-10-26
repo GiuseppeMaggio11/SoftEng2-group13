@@ -101,18 +101,19 @@ exports.deleteServed = (name) => {
 }
 
 exports.getLastTicket = (queue) => {
+    const today = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
     return new Promise ((resolve, reject) => {
         const sql = `SELECT MAX(value) AS maxTicketNumber
         FROM (
             SELECT MAX(amount) AS value
             FROM statistics
-            WHERE queue = ? 
+            WHERE queue = ? AND date = ?
             UNION ALL
             SELECT MAX(ticketNumber) AS value
             FROM queues
             WHERE queue = ? 
         ) AS subquery;`;
-        db.get(sql,[queue,queue] ,(err, row) => {
+        db.get(sql,[queue, today, queue] ,(err, row) => {
             if (err) {
                 reject (err);
                 return;
