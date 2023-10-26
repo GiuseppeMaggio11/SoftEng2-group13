@@ -162,7 +162,12 @@ async function updateStatisticsCount(name) {
 
 
   async function getTotals() {
-    const response = await fetch(SERVER_URL + "totals");
+    const response = await fetch(SERVER_URL + "totals", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const content = await response.json();
     if (response.ok) {
         return content;

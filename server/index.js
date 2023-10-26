@@ -109,16 +109,16 @@ app.get("/api/getlenght", (req, res) => {
     return res.status(400).json({ error: "Missing 'queue' parameter in query string" });
   }
 
-app.get("/api/totals", (req, res) => {
-  dao.getLastTicketAll()
-      .then(count => res.status(200).json(count))
-      .catch((err) => res.status(500).json(err));
-});
-
   dao
     .getQueueLenght(queueName)
     .then((count) => res.json(count))
     .catch(() => res.status(500).end());
+});
+
+app.get("/api/totals", (req, res) => {
+  dao.getLastTicketAll()
+      .then(count => res.status(200).json(count))
+      .catch((err) => res.status(500).json(err));
 });
 
 app.put("/api/reset", async (req, res) => {
