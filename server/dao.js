@@ -21,7 +21,7 @@ exports.getTicketNumber = (queueName) => {
         reject(err);
         return;
       }
-      //console.log(row)
+      console.log(row);
       const count = { count: row.minTicketNumber };
       resolve(count);
     });
@@ -78,7 +78,7 @@ exports.updateStatistics = (queueName) => {
 
 // update queue count
 exports.deleteServed = (name) => {
-  //console.log(name)
+  console.log(name);
   return new Promise((resolve, reject) => {
     const sql = `
     DELETE FROM queues
@@ -118,7 +118,7 @@ exports.getLastTicket = (queue) => {
         reject(err);
         return;
       } else {
-        // console.log(row)
+        console.log(row);
         let count = { count: row.maxTicketNumber };
         resolve(count);
         return;

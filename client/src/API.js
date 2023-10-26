@@ -45,6 +45,7 @@ async function getTicketNumber(name) {
   }
 }
 
+
 async function updateQueueCount(name) {
   // call  PUT /api/counter
   try {
@@ -56,7 +57,7 @@ async function updateQueueCount(name) {
       body: JSON.stringify({ queue: name }),
     });
     const newCount = await response.json();
-    // console.log('response'+ JSON.stringify(response))
+    console.log('response'+ JSON.stringify(response))
     if (response.ok) {
       return newCount;
     } else {
@@ -68,6 +69,7 @@ async function updateQueueCount(name) {
   }
 }
 
+
 async function updateStatisticsCount(name) {
   try {
     const response = await fetch(SERVER_URL + "updateStatistics", {
@@ -77,7 +79,7 @@ async function updateStatisticsCount(name) {
       },
       body: JSON.stringify({ queue: name }),
     });
-    //console.log('response'+ JSON.stringify(response))
+    console.log('response'+ JSON.stringify(response))
     if (response.ok) {
       return true;
     } else {
@@ -89,77 +91,73 @@ async function updateStatisticsCount(name) {
   }
 }
 
-async function newCustomer(name) {
-  try {
-    const response = await fetch(SERVER_URL + "ticket", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ queue: name }),
-    });
-    const newTicket = await response.json();
-    if (response.ok) {
-      return newTicket;
-    } else {
-      const message = await response.text();
-      throw new Error(message);
+
+  async function newCustomer(name) {
+    try {
+      const response = await fetch(SERVER_URL + "ticket", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ queue: name }),
+      });
+      const newTicket = await response.json();
+      if (response.ok) {
+        return newTicket;
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (err) {
+      throw new Error(err.message, { cause: err });
     }
-  } catch (err) {
-    throw new Error(err.message, { cause: err });
   }
-}
 
-async function getLastTicket(name) {
-  try {
-    const response = await fetch(`${SERVER_URL}getlast?queue=${name}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const newCount = await response.json();
-
-    if (response.ok) {
-      return newCount;
-    } else {
-      const message = await response.text();
-      throw new Error(message);
+  async function getLastTicket(name) {
+    try {
+      const response = await fetch(`${SERVER_URL}getlast?queue=${name}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const newCount = await response.json();
+  
+      if (response.ok) {
+        return newCount;
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (err) {
+      throw new Error(err.message, { cause: err });
     }
-  } catch (err) {
-    throw new Error(err.message, { cause: err });
   }
-}
-
-async function getQueueLenght(name) {
-  try {
-    const response = await fetch(`${SERVER_URL}getlenght?queue=${name}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const count = await response.json();
-
-    if (response.ok) {
-      return count;
-    } else {
-      const message = await response.text();
-      throw new Error(message);
+  
+  async function getQueueLenght(name) {
+    try {
+      const response = await fetch(`${SERVER_URL}getlenght?queue=${name}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const count = await response.json();
+  
+      if (response.ok) {
+        return count;
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (err) {
+      throw new Error(err.message, { cause: err });
     }
-  } catch (err) {
-    throw new Error(err.message, { cause: err });
   }
-}
+  
 
-const API = {
-  getTicketNumber,
-  updateQueueCount,
-  updateStatisticsCount,
-  newCustomer,
-  getLastTicket,
-  getQueueLenght,
-};
-export default API;
+  
+  const API = { getTicketNumber, updateQueueCount, updateStatisticsCount, newCustomer, getLastTicket, getQueueLenght};
+  export default API;

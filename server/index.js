@@ -32,20 +32,20 @@ wsServer.on("connection", function (connection) {
   console.log(`${userId} connected.`);
 });
 
-function broadcastMessage(msg) {
+const broadcastMessage = (msg) => {
   // We are sending the current data to all connected active clients
-  console.log(msg);
+  //console.log(msg);
   const data = JSON.stringify(msg);
   for (let userId in clients) {
     let client = clients[userId];
-    console.log(client.readyState);
-    console.log(WebSocket);
+    //console.log(client.readyState);
+    //console.log(WebSocket);
     if (client.readyState === WebSocket.OPEN) {
-      console.log(data);
+      console.log("invio");
       client.send(data);
     }
   }
-}
+};
 
 const app = express();
 app.use(morgan("dev"));
@@ -89,10 +89,10 @@ app.put(
     const objQueue = req.body;
     try {
       const numRowChanges = await dao.deleteServed(objQueue.queue);
-      console.log(numRowChanges);
+      // console.log(numRowChanges);
       // Notifica il client React che l'operazione è stata completata con successo
       if (numRowChanges.numRowUpdated === 1) {
-        console.log("Messaggio");
+        // console.log("Messaggio");
         // io.emit("databaseChange", "Operazione completata con successo");
         broadcastMessage(true);
       }

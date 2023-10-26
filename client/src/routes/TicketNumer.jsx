@@ -2,10 +2,34 @@ import { useEffect, useState } from "react";
 import API from "../API";
 import ErrorComp from "../OtherComponents/ErrorComp";
 import { Alert, Container } from "react-bootstrap";
+import useWebSocket from "react-use-websocket";
+
 
 function TicketNumber() {
   const [number, setNumber] = useState({});
   const [error, setError] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+
+  const WS_URL = "ws://127.0.0.1:8000";
+
+  useWebSocket(WS_URL, {
+    onOpen: () => {
+      console.log("WebSocket connection established.");
+    },
+  });
+
+  let { lastJsonMessage } = useWebSocket(WS_URL, {
+    share: true,
+    onMessage: (message) => {
+      setIsDirty(true);
+    },
+  });
+
+  useEffect(() => {
+    if (lastJsonMessage) {
+      setIsDirty(true);
+    }
+  }, [lastJsonMessage]);
 
   useEffect(() => {
     const getTicketNumber = async () => {
@@ -18,13 +42,12 @@ function TicketNumber() {
         setError(true);
       }
     }
-    const interval = setInterval(() => {
+    if (isDirty) {
       getTicketNumber();
-    }, 300);
+      setIsDirty(false);
+    }
 
-    // Clear the interval when the component is unmounted or when the effect is re-run
-    return () => clearInterval(interval);
-  }, []); 
+  }, [isDirty]); 
 
   return (
     <Container className="text-center">

@@ -1,8 +1,7 @@
 import { Alert, Container, Button } from "react-bootstrap";
 import API from "../API";
 import ErrorComp from "../OtherComponents/ErrorComp";
-import { useState, useEffect } from "react";
-import io from "socket.io-client";
+import { useState, useEffect, useRef } from "react";
 import useWebSocket from "react-use-websocket";
 
 function Customer() {
@@ -10,7 +9,7 @@ function Customer() {
   const [error, setError] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [numOfPeopleWaiting, setNumOfPeopleWaiting] = useState(0);
-  const [isDirty, setIsDirty] = useState(true);
+  const [isDirty, setIsDirty] = useState(false);
 
   const WS_URL = "ws://127.0.0.1:8000";
 
@@ -20,35 +19,23 @@ function Customer() {
     },
   });
 
-  const { lastJsonMessage } = useWebSocket(WS_URL, {
+  let { lastJsonMessage } = useWebSocket(WS_URL, {
     share: true,
-    filter: isDirty,
-  });
-  if (lastJsonMessage == true) {
-    setIsDirty(lastJsonMessage);
-  }
-  //const activities = lastJsonMessage?.data.userActivity || [];
-
-  /*useEffect(() => {
-    const socket = io(); // Connessione al server WebSocket
-
-    socket.on("databaseChange", (data) => {
-      console.log("Messaggio ricevuto dal server:", data);
+    onMessage: (message) => {
       setIsDirty(true);
-      // Qui puoi gestire l'aggiornamento dell'interfaccia utente in base ai dati ricevuti dal server
-    });
-
-    return () => {
-      socket.disconnect(); // Chiudi la connessione quando il componente viene smontato
-    };
-  }, []);*/
+    },
+  });
 
   useEffect(() => {
-    //const socket = io(); // Connessione al server WebSocket
+    if (lastJsonMessage) {
+      setIsDirty(true);
+    }
+  }, [lastJsonMessage]);
+
+  useEffect(() => {
     const getTicketNumber = async () => {
       try {
         const objInitialNumber = await API.getLastTicket("Q1");
-        console.log(objInitialNumber.count);
         if (objInitialNumber.count) setNumber(objInitialNumber);
       } catch (err) {
         console.log(err);
@@ -56,26 +43,12 @@ function Customer() {
       }
     };
 
-    // socket.on("databaseChange", (data) => {
-    //   console.log("Messaggio ricevuto dal server:", data);
-    //   setIsDirty(true);
-    // Qui puoi gestire l'aggiornamento dell'interfaccia utente in base ai dati ricevuti dal server
-    if (lastJsonMessage !== null) {
+    if (isDirty) {
+      console.log("entro2")
       getTicketNumber();
       numberOfPeopleWaiting();
       setIsDirty(false);
     }
-
-    //   setIsDirty(false);
-    //  console.log("Update number");
-    // });
-
-    /* if (isDirty) {
-      getTicketNumber();
-      numberOfPeopleWaiting();
-      setIsDirty(false);
-      console.log("Update number");
-    }*/
   }, [isDirty]);
 
   async function handleNewTicket() {
@@ -103,7 +76,7 @@ function Customer() {
       style={{ minHeight: "100vh" }}
     >
       {!showThankYou && number.count != 0 && (
-        <h2>Hello, we are serving the client number</h2>
+        <h2>Last client number in line is</h2>
       )}
       {!showThankYou && number.count == 0 && (
         <h2>Hello, no clients are in line</h2>
