@@ -1,0 +1,3 @@
+### Reset queries counter
+
+PUT http://localhost:3001/api/reset
