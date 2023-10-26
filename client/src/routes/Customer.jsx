@@ -42,8 +42,14 @@ function Customer() {
       }
     };
     getTicketNumber();
-    numberOfPeopleWaiting();
-  }, []);
+    
+    const interval = setInterval(() => {
+      numberOfPeopleWaiting();
+    }, 300);
+
+    // Clear the interval when the component is unmounted or when the effect is re-run
+    return () => clearInterval(interval);
+  }, []); 
 
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
