@@ -13,8 +13,16 @@ sections:
 ### Macro statistics
 
 - Number of stories committed vs. done 
+
+4 stories committed, 4 stories done
+
 - Total points committed vs. done 
+
+8 points committed, 8 points done
+
 - Nr of hours planned vs. spent (as a team)
+
+56 hours planned, 55h15 spent
 
 **Remember**a story is done ONLY if it fits the Definition of Done:
  
