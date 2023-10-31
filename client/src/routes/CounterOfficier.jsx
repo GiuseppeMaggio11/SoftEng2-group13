@@ -51,6 +51,12 @@ function CounterOfficier() {
   
     return isFirst?<div style={numberStyle}>Call the first customer</div>:<div style={numberStyle}>All the customers are served</div>
   };
+
+  /**
+   * Handles increase in the count for a specific queue
+   * If 'isFirst' is true, it fetches the initial ticket number, and if 'isFirst' is false,
+   * it updates the queue count and the statistics count for the queue.
+   */
   const handleIncreaseCount = async() => {
     //API call the next one
     if(isFirst){

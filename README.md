@@ -15,3 +15,22 @@
 ``` json
 
 ```
+
+- GET LAST TICKET
+* HTTP method: `GET` URL: `/api/getlast?queue=${name}`
+* Description: Get last customer number
+* Response: `200 OK` (success)
+* Response body: Last ticket
+```
+    { count : number }
+```
+
+- UPDATE QUEUE COUNT / CALL NEXT CUSTOMER
+* HTTP method: `PUT` URL: `/api/counter`
+* Description: Delete last served
+* Request body: 'queue' name
+* Response: `200 OK` (success)
+* Response body: 
+``` 
+    { numRowUpdated: number }
+```

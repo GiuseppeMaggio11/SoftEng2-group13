@@ -24,8 +24,10 @@ function Manager() {
     }
 
 
-
     useEffect(() => {
+        /**
+         * Fetches and updates queue totals
+         */
         if (dirtyTotals == true) {
             API.getTotals()
                 .then((totals) => {
@@ -37,7 +39,9 @@ function Manager() {
     }, [dirtyTotals]);
 
 
-
+    /**
+     * Resets queue totals
+     */
     const resetTotals = () => {
         setQueueTotals(oldList => oldList.map(element => Object.assign({}, element, { updated: true })));
         API.resetQueuesTotal()

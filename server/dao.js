@@ -15,7 +15,13 @@ exports.getDatabaseInstance = () => {
 
 /***QUERY***/
 
-// get ticket number
+/**
+ * Retrieves the minimum ticket number for a specified queue
+ *
+ * @param {string} queueName - The name of the queue for which to get the minimum ticket number.
+ * @returns {Promise<{ count: number }>} A promise that resolves with an object containing the ticket number.
+ * @throws {Error} If there is an issue with the database query or connection.
+ */
 exports.getTicketNumber = (queueName) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT MIN(ticketNumber) AS minTicketNumber FROM queues WHERE queue = ? ";
@@ -31,6 +37,13 @@ exports.getTicketNumber = (queueName) => {
     });
 };
 
+/**
+ * Updates statistics for a specified queue by incrementing the count of customers for the current date.
+ *
+ * @param {string} queueName - The name of the queue to update statistics for.
+ * @returns {Promise<string>} A promise that resolves with a message indicating whether a row was updated or a new row was created.
+ * @throws {Error} If there is an issue with the database operation.
+ */
 exports.updateStatistics = (queueName) => {
     console.log('f')
     return new Promise((resolve, reject) => {
@@ -80,7 +93,13 @@ exports.updateStatistics = (queueName) => {
 }
 
 
-// update queue count
+/**
+ * Updates the queue by deleting the last served customer from a specified queue
+ *
+ * @param {string} name - The name of the queue from which to remove the served customer.
+ * @returns {Promise<{ numRowUpdated: number }>} A promise that resolves with an object containing the number of rows updated.
+ * @throws {Error} If there is an issue with the database operation.
+ */
 exports.deleteServed = (name) => {
     console.log(name)
     return new Promise((resolve, reject) => {
@@ -104,6 +123,13 @@ exports.deleteServed = (name) => {
     });
 }
 
+/**
+ * Retrieves the last ticket number for a specified queue on the current date.
+ *
+ * @param {string} queue - The name of the queue for which to retrieve the last ticket number.
+ * @returns {Promise<{ count: number }>} A promise that resolves with an object containing the last ticket number.
+ * @throws {Error} If there is an issue with the database query or connection.
+ */
 exports.getLastTicket = (queue) => {
     const today = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
     return new Promise ((resolve, reject) => {
@@ -131,6 +157,12 @@ exports.getLastTicket = (queue) => {
     })
 }
 
+/**
+ * Retrieves the length of a specified queue
+ *
+ * @param {string} queue - The name of the queue for which to get the length.
+ * @returns {Promise<number>} A promise that resolves with the length of the queue.
+ */
 exports.getQueueLenght = (queue) => {
     return new Promise ((resolve, reject) => {
         const sql = 'SELECT count(*) AS C FROM queues WHERE queue = ?';
@@ -146,6 +178,14 @@ exports.getQueueLenght = (queue) => {
     })
 }
 
+/**
+ * Adds a new ticket to a specified queue
+ *
+ * @param {string} queue - The name of the queue to which the ticket will be added.
+ * @param {number} ticket - The ticket number to be added to the queue.
+ * @returns {Promise<void>} A promise that resolves when the ticket is successfully added.
+ * @param {Error} An error object if there is an issue with the database operation.
+ */
 exports.addTicket = (queue, ticket) => {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO queues (queue, ticketNumber) VALUES (?,?)'
@@ -160,6 +200,13 @@ exports.addTicket = (queue, ticket) => {
     })
 }
 
+/**
+ * Retrieves the last ticket number for all queues
+ *
+ * @returns {Promise<Array>} A promise that resolves with an array of objects, where each object represents
+ *                          a queue and its last ticket number in this format { queue: string, total: number }.
+ * @throws {Error} If there is an issue with the database query or connection.
+ */
 exports.getLastTicketAll = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT queue, MAX(ticketNumber) AS total FROM queues GROUP BY queue";
@@ -173,6 +220,12 @@ exports.getLastTicketAll = () => {
     }); 
 }
 
+/**
+ * Resets the total count of queues
+ *
+ * @returns {Promise<number>} A promise that resolves with the number of rows affected (changes) after the deletion.
+ * @rejects {Error} If there is an error during the deletion operation.
+ */
 exports.resetQueuesTotal = () => {
     return new Promise((resolve, reject) => {
         const sql = "DELETE FROM queues";
