@@ -37,14 +37,20 @@ sections:
 
 | Story  | # Tasks | Points | Hours est. | Hours actual |
 |--------|---------|--------|------------|--------------|
-| _#0_   |         |       |            |              |
-| n      |         |        |            |              |
+| _#1_   |     6    |    2   |      11:30      |     4:40         |
+| _#2_   |     6    |    1   |       8:30      |     4:30         |
+| _#3_   |     6    |    2   |      15:30      |     9:55         |
+| _#4_   |     N/A  |    5   |                 |                  |
+| _#5_   |     6    |    3   |      14:30      |     11:40        |
+| _#6_   |     N/A  |    5   |                 |                  |
+|uncategorized tasks  | N/A  |       |      6:00       |    20:45         |
    
 
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
-- Hours per task average, standard deviation (estimate and actual)
-- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1
+- Average hours per task = 2.34H - 140M / 1.67H - 100M (excluding Task #18)
+- Standard deviation for estimation: 57.6 / for actual time: 195.3 / for actual time excluding Task #18 "sprint planning": 62.9 (calculation based on Minutes)
+- Total task estimation error ratio: 56/(51.5-1) = 1.1H - 66M
 
   
 ## QUALITY MEASURES 
