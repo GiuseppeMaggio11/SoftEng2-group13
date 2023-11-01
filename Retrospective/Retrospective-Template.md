@@ -22,7 +22,7 @@ sections:
 
 - Nr of hours planned vs. spent (as a team)
 
-56 hours planned, 55h15 spent
+56 hours planned, 51h30 spent
 
 **Remember**a story is done ONLY if it fits the Definition of Done:
  
@@ -43,7 +43,7 @@ sections:
 | _#4_   |     N/A  |    5   |                 |                  |
 | _#5_   |     6    |    3   |      14:30      |     11:40        |
 | _#6_   |     N/A  |    5   |                 |                  |
-|uncategorized tasks  | N/A  |       |      6:00       |    20:45         |
+|uncategorized tasks  | 4  |       |      6:00       |    20:45         |
    
 
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
