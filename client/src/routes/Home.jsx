@@ -27,6 +27,9 @@ function Home() {
       <Link to="/counterofficier" className="m-1">
         <Button>Counter Officier</Button>
         </Link>
+        <Link to="/statistics" className="m-1">
+        <Button>Statistics</Button>
+        </Link>
       {/*add other buttons*/}
     </Container>
   );

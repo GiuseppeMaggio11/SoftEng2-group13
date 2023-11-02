@@ -155,3 +155,30 @@ exports.addTicket = (queue, ticket) => {
     });
   });
 };
+exports.getLastTicketAll = () => {
+  return new Promise((resolve, reject) => {
+      const sql = "SELECT queue, MAX(ticketNumber) AS total FROM queues GROUP BY queue";
+      db.all(sql, [], (err, rows) => {
+          if (err) {
+              reject(err);
+              return;
+          }
+          resolve(rows);
+      });
+  }); 
+}
+
+exports.resetQueuesTotal = () => {
+  return new Promise((resolve, reject) => {
+      const sql = "DELETE FROM queues";
+      db.run(sql, [], function (err) {
+          if (err) {
+              reject(err);
+              return;
+          } else {
+              resolve(this.changes);
+          }
+          
+      });
+  }); 
+}

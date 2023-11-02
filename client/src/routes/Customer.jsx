@@ -45,7 +45,8 @@ function Customer() {
 
     if (isDirty) {
       console.log("entro2")
-      getTicketNumber();
+      if(numOfPeopleWaiting>1)
+        getTicketNumber();
       numberOfPeopleWaiting();
       setIsDirty(false);
     }

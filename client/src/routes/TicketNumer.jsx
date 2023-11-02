@@ -22,21 +22,16 @@ function TicketNumber() {
     share: true,
     onMessage: (message) => {
       setIsDirty(true);
+      console.log('message')
     },
   });
-
-  useEffect(() => {
-    if (lastJsonMessage) {
-      setIsDirty(true);
-    }
-  }, [lastJsonMessage]);
 
   useEffect(() => {
     const getTicketNumber = async () => {
       try {
         const objCount = await API.getTicketNumber('Q1');
-        if(objCount.count != number.count)
-          setNumber(objCount);
+        setNumber(objCount);
+        console.log(objCount.count)
       } catch (err) {
         console.log(err);
         setError(true);
