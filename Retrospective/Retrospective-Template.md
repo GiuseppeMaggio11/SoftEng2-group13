@@ -1,4 +1,4 @@
-TEMPLATE FOR RETROSPECTIVE (Team ##)
+TEMPLATE FOR RETROSPECTIVE (Team 13)
 =====================================
 
 The retrospective should include _at least_ the following
@@ -22,7 +22,7 @@ sections:
 
 - Nr of hours planned vs. spent (as a team)
 
-56 hours planned, 51h30 spent
+56 hours planned, 55.35 spent
 
 **Remember**a story is done ONLY if it fits the Definition of Done:
  
@@ -43,7 +43,7 @@ sections:
 | _#4_   |     N/A  |    5   |                 |                  |
 | _#5_   |     6    |    3   |      14:30      |     11:40        |
 | _#6_   |     N/A  |    5   |                 |                  |
-|uncategorized tasks  | 4  |       |      6:00       |    20:45         |
+| _#0_   |     4    |        |      6:00       |     20:45        |
    
 
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
@@ -56,13 +56,13 @@ sections:
 ## QUALITY MEASURES 
 
 - Unit Testing:
-  - Total hours estimated : 15:30h
-  - Total hours spent : 07:25h
-  - Nr of automated unit test cases 
-  - Coverage (if available)
+  - Total hours estimated : 8:30h
+  - Total hours spent : 04:25h
+  - Nr of automated unit test cases : 17
+  - Coverage : 78.26%
 - E2E testing:
-  - Total hours estimated
-  - Total hours spent
+  - Total hours estimated : 7:00h
+  - Total hours spent : 3:00h
 - Code review 
   - Total hours estimated : 12:30 h
   - Total hours spent : 06:30 h
