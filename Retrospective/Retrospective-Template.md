@@ -22,7 +22,7 @@ sections:
 
 - Nr of hours planned vs. spent (as a team)
 
-56 hours planned, 55.35 spent
+56 hours planned, 51.5 spent
 
 **Remember**a story is done ONLY if it fits the Definition of Done:
  
@@ -48,9 +48,9 @@ sections:
 
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
-- Average hours per task = 2.34H - 140M / 1.67H - 100M (excluding Task #18)
-- Standard deviation for estimation: 57.6 / for actual time: 195.3 / for actual time excluding Task #18 "sprint planning": 62.9 (calculation based on Minutes)
-- Total task estimation error ratio: 56/(51.5-1) = 1.1H - 66M
+- Average hours per task = Actual: 1.84H - 110M ---- Estimated: 2H - 120M
+- Standard deviation for estimation: 3.57 / for actual time: 5.95
+- Total task estimation error ratio: 56/(51.5)-1 = 8.7%
 
   
 ## QUALITY MEASURES 
